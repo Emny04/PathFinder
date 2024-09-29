@@ -181,9 +181,77 @@
   };
   </script>
   
- 
 
 
+
+
+
+
+
+
+  
+  <body>
+
+    <h1 style="text-align: center;padding-top: 75px;">Career Path Builder</h1>
+
+    <form style="padding-bottom: 50px;" id="career-form" enctype="multipart/form-data" onsubmit="submitForm(event)">
+        <!-- Career Path Selection -->
+        <label for="careerPath">Select Career Path:</label>
+        <select name="careerPath" id="careerPath" required>
+            <option value="Data Scientist">Data Scientist</option>
+            <option value="Web Developer">Web Developer</option>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Machine Learning Specialist">Machine Learning Specialist</option>
+            <option value="Game Developer">Game Developer</option>
+        </select>
+
+        <!-- Resume Upload -->
+        <label for="resume">Upload Your Resume (PDF only):</label>
+        <input type="file" name="file" id="resume" accept=".pdf" required>
+
+        <!-- Submit Button -->
+        <button  type="submit">Submit</button>
+    </form>
+
+    <!-- Feedback Section -->
+    <div id="feedback"></div>
+
+</body>
+
+<!-- JavaScript -->
+<script>
+    async function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const form = document.getElementById('career-form');
+        const formData = new FormData(form); // Collect form data
+
+        const feedbackElement = document.getElementById('feedback'); // Reference to feedback div
+        feedbackElement.style.display = 'none'; // Hide feedback initially
+
+        try {
+            // Send a POST request with the form data (career path + resume)
+            const response = await fetch('/upload-career', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Handle the response from the server
+            const result = await response.json(); // Parse response as JSON
+            if (response.ok) {
+                feedbackElement.innerHTML = `<strong>Feedback:</strong> <p>${result.message}</p>`;
+                feedbackElement.style.display = 'block'; // Show feedback
+            } else {
+                feedbackElement.innerHTML = `<strong>Error:</strong> <p>${result.message}</p>`;
+                feedbackElement.style.display = 'block'; // Show error message
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            feedbackElement.innerHTML = `<strong>Error:</strong> <p>An error occurred while submitting the form.</p>`;
+            feedbackElement.style.display = 'block'; // Show error message
+        }
+    }
+</script>
 
 
 
@@ -227,7 +295,7 @@
               <h4>
                 PathFinder
               </h4>
-              <p>
+              <p style="font-size: 130%;">
                 PathFinder is a unique platform designed to provide personalized career guidance and resources, helping minority job seekers reach their goals through tailored advice and support.
               </p>
             </div>

@@ -126,7 +126,7 @@ a:focus {
 
 .custom_nav-container .navbar-nav .nav-item .nav-link {
   padding: 5px 25px;
-  color: #f8842b;
+  color: white;
   text-align: center;
   text-transform: uppercase;
   border-radius: 5px;
@@ -135,7 +135,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-  color: #7335b7;
+  color: white;
   background-color: #f8842b;
 }
 

@@ -25,6 +25,46 @@
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+#response {
+    border: 1px solid #3498db;
+    padding: 10px;
+    background-color: #ecf0f1;
+}
+
+  </style>
 
 </head>
 
@@ -181,7 +221,39 @@
   };
   </script>
   
- 
+  <h1 style="text-align: center;padding-top: 75px;">Advising Page</h1>
+  <p style="text-align: center;">Welcome to the Advising Page! Here, you can ask any technical questions or inquire about interview application dates, types of interviews, or general career advice. An AI expert will provide you with insightful answers.</p>
+  
+  <form id="advisingForm">
+    <label for="userQuestion">Ask your question:</label>
+    <textarea id="userQuestion" rows="4" placeholder="e.g., What skills should I highlight in my resume? How can I prepare for a technical interview? What are the deadlines for applications?" required></textarea><br>
+    <input style="background-color: #f8842b;" type="submit" value="Submit Question">
+</form>
+
+<div id="response" style="margin-top: 20px;margin-bottom: 50px ;"></div>
+
+<script>
+    $(document).ready(function() {
+        $('#advisingForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const question = $('#userQuestion').val(); // Get the question from the textarea
+            
+            $.ajax({
+                url: '/ask', // Your API endpoint for asking questions
+                method: 'POST',
+                contentType: 'application/json', // Send as JSON
+                data: JSON.stringify({ question }), // Convert to JSON
+                success: function(response) {
+                    $('#response').html('<strong>AI Response:</strong> ' + response.message);
+                },
+                error: function(xhr) {
+                    $('#response').html('<strong>Error:</strong> ' + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 
 
@@ -227,7 +299,7 @@
               <h4>
                 PathFinder
               </h4>
-              <p>
+              <p style="font-size: 130%;">
                 PathFinder is a unique platform designed to provide personalized career guidance and resources, helping minority job seekers reach their goals through tailored advice and support.
               </p>
             </div>

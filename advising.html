@@ -11,38 +11,7 @@
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-    .checklist-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-    .column {
-        width: 30%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .item {
-        margin: 5px 0;
-    }
-    .green {
-        color: green;
-    }
-    .yellow {
-        color: orange;
-    }
-    .red {
-        color: red;
-    }
-</style>
-</head>
   <title>PathFinder</title>
 
 
@@ -56,8 +25,6 @@
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
 </head>
 
@@ -96,7 +63,6 @@
             <div class="quote_btn-container">
               <button class="quote_btn" id="openModal">Sign In</button>
               <button class="quote_btn" id="editProfileButton" style="display: none;">Sign Out</button>
-            </div>
             </div>
           </div>
         </nav>
@@ -215,6 +181,7 @@
   };
   </script>
   
+ 
 
 
 
@@ -229,143 +196,27 @@
 
 
 
-  <h1 style="text-align: center;padding-top: 20px;">Resume Feedback</h1>
-  <form style="text-align: center;" id="resumeForm" enctype="multipart/form-data">
-      <input style="text-align: center;" type="file" id="resumeFile" accept=".pdf,.doc,.docx" required><br>
-      <input style="background-color: #f8842b;" type="submit" value="Get Feedback">
-  </form>
-
-  <div id="feedback" style="margin-top: 20px;"></div>
-
-  <script>
-    $(document).ready(function() {
-        $('#resumeForm').on('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const formData = new FormData(); // Create FormData object
-            const fileInput = $('#resumeFile')[0].files[0]; // Get the file
-
-            if (fileInput) {
-                formData.append('file', fileInput); // Append the file to the FormData object
-
-                $.ajax({
-                    url: '/upload', // Your API endpoint
-                    method: 'POST',
-                    data: formData,
-                    processData: false, // Important: Prevent jQuery from processing the data
-                    contentType: false, // Important: Set contentType to false
-                    success: function(response) {
-                                const num = 0; // Get the final item number
-                                const itemId = `item${num}`; // Build the item ID
-                                const itemElement = document.getElementById(itemId); // Get the checklist item element
-
-                                // Make the item visible
-                                if (itemElement) {
-                                    itemElement.style.display = 'block'; // Change to 'block' or your desired display style
-                                }
-                        let k = 0;
-                        let b = 0;
 
 
-                        for (let i = 0; i < response.message.length; i++) {
-                            console.log(response.message[i]);
-                            
-                            if (response.message[i] >= '0' && response.message[i] <= '9' && b==9) {
-                                b = 10;
-                            }
-                            else{
-                              let b = 0;
-                            }
-                            // Check if the character is a digit
-                            if (response.message[i] >= '0' && response.message[i] <= '9' && b!=10) {
-                                b = parseInt(response.message[i]);
-                            }
 
-                            // Check for yellow and red indicators
-                            if (response.message[i] == 'Y') {
-                                k = 10; // Set k to 10 for yellow
-                            } else if (response.message[i] == 'D') {
-                                k = 20; // Set k to 20 for red
-                            }
 
-                            // If b is not zero, display the corresponding item
-                            if (b !== 0) {
-                                const num = b + k; // Get the final item number
-                                const itemId = `item${num}`; // Build the item ID
-                                const itemElement = document.getElementById(itemId); // Get the checklist item element
 
-                                // Make the item visible
-                                if (itemElement) {
-                                    itemElement.style.display = 'block'; // Change to 'block' or your desired display style
-                                }
-                            }
-                        }
-                    },
-                    error: function(xhr) {
-                        $('#feedback').html('<strong>Error:</strong> ' + xhr.responseText);
-                        console.error('Error details:', xhr); // Log error details
-                    }
-                });
-            } else {
-                $('#feedback').html('<strong>Error:</strong> No file selected.');
-            }
-        });
-    });
-</script>
 
-  <h1 id="item0"style="display: none;">Resume Checklist Evaluation</h1>
-  <div id="checklistContainer" class="checklist-container" style="padding-bottom: 300px;">
-      <div class="column" id="goodToGo">
-          <h2 style="text-align: center;">Good to Go</h2>
-          <div id="item1" class="item green" style="display: none;">1. Clear contact information</div>
-          <div id="item2" class="item green" style="display: none;">2. Professional summary or objective</div>
-          <div id="item3" class="item green" style="display: none;">3. Relevant experience</div>
-          <div id="item4" class="item green"style="display: none;">4. Skills section</div>
-          <div id="item5" class="item green"style="display: none;">5. Education section</div>
-          <div id="item6" class="item green"style="display: none;">6. Tailored keywords (specific to the job/industry)</div>
-          <div id="item7" class="item green"style="display: none;">7. Quantifiable achievements</div>
-          <div id="item8" class="item green"style="display: none;">8. Proper formatting (consistent, clean, readable)</div>
-          <div id="item9" class="item green"style="display: none;">9. Action-oriented language</div>
-          <div id="item10" class="item green"style="display: none;">10. No typos or grammar errors</div>
-      </div>
 
-      <div class="column" id="needsRevising">
-          <h2 style="text-align: center;">Needs Revising</h2>
-          <div id="item11" class="item yellow"style="display: none;">1. Clear contact information</div>
-          <div id="item12" class="item yellow" style="display: none;">2. Professional summary or objective</div>
-          <div id="item13" class="item yellow" style="display: none;">3. Relevant experience</div>
-          <div id="item14" class="item yellow" style="display: none;">4. Skills section</div>
-          <div id="item15" class="item yellow" style="display: none;">5. Education section</div>
-          <div id="item16" class="item yellow" style="display: none;">6. Tailored keywords (specific to the job/industry)</div>
-          <div id="item17" class="item yellow" style="display: none;">7. Quantifiable achievements</div>
-          <div id="item18" class="item yellow" style="display: none;">8. Proper formatting (consistent, clean, readable)</div>
-          <div id="item19" class="item yellow" style="display: none;">9. Action-oriented language</div>
-          <div id="item20" class="item yellow" style="display: none;">10. No typos or grammar errors</div>
-      </div>
 
-      <div class="column" id="changeCreate">
-          <h2 style="text-align: center;">Change / Create again</h2>
-          <div id="item21" class="item red" style="display: none;">1. Clear contact information</div>
-          <div id="item22" class="item red" style="display: none;">2. Professional summary or objective</div>
-          <div id="item23" class="item red" style="display: none;">3. Relevant experience</div>
-          <div id="item24" class="item red" style="display: none;">4. Skills section</div>
-          <div id="item25" class="item red" style="display: none;">5. Education section</div>
-          <div id="item26" class="item red" style="display: none;">6. Tailored keywords (specific to the job/industry)</div>
-          <div id="item27" class="item red" style="display: none;">7. Quantifiable achievements</div>
-          <div id="item28" class="item red" style="display: none;">8. Proper formatting (consistent, clean, readable)</div>
-          <div id="item29" class="item red" style="display: none;">9. Action-oriented language</div>
-          <div id="item30" class="item red" style="display: none;">10. No typos or grammar errors</div>
-      </div>
-  </div>
+
+
+
+
+
+
+
+
 
 
   
 
-
-  
-  
-
-  <div class="footer_container" >
+  <div class="footer_container">
     <!-- info section -->
 
     <section class="info_section ">

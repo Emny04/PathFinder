@@ -30,7 +30,21 @@ const storage = multer.diskStorage({
     });
     
     const upload = multer({ storage: storage });
-    
+    const checklist = `
+Please evaluate the following resume based on these criteria:
+1. Clear contact information
+2. Professional summary or objective
+3. Relevant experience
+4. Skills section
+5. Education section
+6. Tailored keywords (specific to the job/industry)
+7. Quantifiable achievements
+8. Proper formatting (consistent, clean, readable)
+9. Action-oriented language
+10. No typos or grammar errors
+
+For each point, provide feedback on whether it is present or missing and any suggestions for improvement.
+`;
     // Set up OpenAI
     
     // Endpoint for file upload
@@ -61,8 +75,11 @@ const storage = multer.diskStorage({
     
             // Send the extracted text to OpenAI for feedback
             const chatCompletion = await openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
-                messages: [{"role": "user", "content": text}],
+                model: "gpt-4",  // You can switch to 'gpt-3.5-turbo' if needed
+                messages: [
+                    { "role": "system", "content": "You are a resume evaluator. If an item is 'GREEN' so it is good to go, just list the number. If multiple items are 'GREEN', list all their numbers. For 'YELLOW' and 'RED' same way, but gor needing revising and changing respectfully" },
+                    { "role": "user", "content": `${checklist}\n\nResume Text:\n${text}` }
+                ],
             });
     
             const feedback = chatCompletion.choices[0].message.content;
@@ -202,7 +219,7 @@ app.get('/auth', (req, res) => {
 
 
 // Start the server
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 3011;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
